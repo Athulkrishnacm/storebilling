@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery Shop Billing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        header img {
+            max-width: 150px;
+            display: block;
+            margin: 0 auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+       
+        th {
+            background-color: #f2f2f2;
+        }
+        .our-price {
+            color: green;
+            font-weight: bold;
+        }
+        .total {
+            font-weight: bold;
+        }
+        .print-btn {
+            display: block;
+            width: 100px;
+            margin: 20px auto;
+            padding: 10px;
+            text-align: center;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .print-btn:hover {
+            background-color: #45a049;
+        }
+        .input-form {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-form input {
+            margin: 5px;
+            padding: 5px;
+            width: 150px;
+        }
+        .add-item-btn, .delete-item-btn {
+            padding: 6px 12px;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .delete-item-btn {
+            background-color: #FF6347;
+        }
+        .add-item-btn:hover {
+            background-color: #0056b3;
+        }
+        .delete-item-btn:hover {
+            background-color: #FF4500;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        @media print {
+            .print-btn, .delete-item-btn, .input-form {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="data:image/jpeg;base64,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" alt="Shop Logo">
+    <h1>ALAPPADAN STORES</h1>
+</header>
+
+<div class="input-form">
+    <input type="text" id="item-name" placeholder="Item Name">
+    <input type="number" id="item-mrp" placeholder="MRP">
+    <input type="number" id="item-our-price" placeholder="Our Price">
+    <button class="add-item-btn" onclick="addItem()">Add Item</button>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Item Name</th>
+            <th>MRP</th>
+            <th>Our Price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="item-table-body">
+        <!-- Dynamic rows will be added here by JavaScript -->
+    </tbody>
+    <tfoot>
+        <tr class="total">
+            <td>Total</td>
+            <td id="total-mrp">0</td>
+            <td id="total-our-price">0</td>
+            <td class="5"></td>
+        </tr>
+    </tfoot>
+</table>
+
+<a href="#" class="print-btn" onclick="window.print(); return false;">Print</a>
+
+<footer>
+    <p>Thanks for your order! <span style="font-size: 24px;">🙏</span></p>
+</footer>
+
+<script>
+    let totalMrp = 0;
+    let totalOurPrice = 0;
+
+    function addItem() {
+        const itemName = document.getElementById('item-name').value;
+        const itemMrp = parseFloat(document.getElementById('item-mrp').value);
+        const itemOurPrice = parseFloat(document.getElementById('item-our-price').value);
+
+        if (itemName && !isNaN(itemMrp) && !isNaN(itemOurPrice)) {
+            const tbody = document.getElementById("item-table-body");
+
+            const row = document.createElement("tr");
+
+            const itemNameCell = document.createElement("td");
+            itemNameCell.textContent = itemName;
+            row.appendChild(itemNameCell);
+
+            const mrpCell = document.createElement("td");
+            mrpCell.textContent = itemMrp;
+            row.appendChild(mrpCell);
+            totalMrp += itemMrp;
+
+            const ourPriceCell = document.createElement("td");
+            ourPriceCell.textContent = itemOurPrice;
+            ourPriceCell.classList.add("our-price");
+            row.appendChild(ourPriceCell);
+            totalOurPrice += itemOurPrice;
+
+            const actionCell = document.createElement("td");
+            const deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "Delete";
+            deleteBtn.classList.add("delete-item-btn");
+            deleteBtn.onclick = function() {
+                tbody.removeChild(row);
+                totalMrp -= itemMrp;
+                totalOurPrice -= itemOurPrice;
+                document.getElementById("total-mrp").textContent = totalMrp;
+                document.getElementById("total-our-price").textContent = totalOurPrice;
+            };
+            actionCell.appendChild(deleteBtn);
+            row.appendChild(actionCell);
+
+            tbody.appendChild(row);
+
+            document.getElementById("total-mrp").textContent = totalMrp;
+            document.getElementById("total-our-price").textContent = totalOurPrice;
+
+            // Clear input fields
+            document.getElementById('item-name').value = '';
+            document.getElementById('item-mrp').value = '';
+            document.getElementById('item-our-price').value = '';
+        } else {
+            alert('Please enter valid item details.');
+        }
+    }
+</script>
+
+</body>
+</html>
